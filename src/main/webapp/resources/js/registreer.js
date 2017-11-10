@@ -23,7 +23,7 @@ function post(url, body, handler) {
 	request.onreadystatechange = function() {
 		if (request.readyState === XMLHttpRequest.DONE
 				&& request.status === 200) {
-			handler(parseHtml(request.responseText));
+			proceed(parseHtml(request.responseText), handler);
 		}
 	};
 	request.open('POST', url, true);
@@ -46,15 +46,36 @@ function proceed(responseHtml, nextScreen) {
 		errorLabel.textContent = foutmelding.textContent;
 		show(errorLabel);
 	} else {
-		hide(errorLabel);
 		nextScreen(responseHtml);
 	}
 }
 
-document.title = 'Registreer cursist';
-h1.textContent = 'Cursist registratie...';
-hide(errorLabel);
-hide(activatieformulier);
+window.addEventListener('hashchange', setHashState);
+
+function setHashState() {
+	hide(errorLabel);
+	switch (window.location.hash) {
+	case '#activeer':
+		document.title = 'Activeer cursist';
+		h1.textContent = 'Cursist activatie...';
+		hide(registratieformulier);
+		show(activatieformulier);
+		break;
+	case '#account':
+		document.title = 'Account page';
+		hide(registratieformulier);
+		hide(activatieformulier);
+		break;
+	default:
+		document.title = 'Registreer cursist';
+		h1.textContent = 'Cursist registratie...';
+		show(registratieformulier);
+		hide(activatieformulier);
+		break;
+	}
+}
+
+setHashState();
 
 onSubmit(registratieformulier, function(form) {
 	var registratieGebruikersnaam = form
@@ -64,13 +85,7 @@ onSubmit(registratieformulier, function(form) {
 			+ encodeURIComponent(registratieGebruikersnaam) + '&'
 			+ "registratieEmail=" + encodeURIComponent(registratieEmail);
 	post('/registreer', body, function(responseHtml) {
-		proceed(responseHtml, function(responseHtml) {
-			window.location.hash = 'activeer';
-			hide(registratieformulier);
-			show(activatieformulier);
-			document.title = 'Activeer cursist';
-			h1.textContent = 'Cursist activatie...';
-		});
+		window.location.hash = 'activeer';
 	});
 });
 
@@ -82,11 +97,7 @@ onSubmit(activatieformulier, function(form) {
 			+ encodeURIComponent(activatieGebruikersnaam) + '&'
 			+ "activatiecode=" + encodeURIComponent(activatiecode);
 	post('/activeer', body, function(responseHtml) {
-		proceed(responseHtml, function(responseHtml) {
-			window.location.hash = 'account';
-			hide(activatieformulier);
-			document.title = 'Account page';
-			h1.textContent = responseHtml.querySelector('h1').textContent;
-		});
+		window.location.hash = 'account';
+		h1.textContent = responseHtml.querySelector('h1').textContent;
 	});
 });
