@@ -1,5 +1,6 @@
 package com.infosupport.kc.registratie.web;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,7 +26,8 @@ public class AccountPage {
 
 			@Override
 			public boolean apply(WebDriver webDriver) {
-				return "Account page".equals(webDriver.getTitle());
+				JavascriptExecutor executor = (JavascriptExecutor)webDriver;
+				return "#account".equals(executor.executeScript("return window.location.hash;"));
 			}
 			
 		});

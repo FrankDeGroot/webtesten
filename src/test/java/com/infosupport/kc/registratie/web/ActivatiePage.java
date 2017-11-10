@@ -1,5 +1,6 @@
 	package com.infosupport.kc.registratie.web;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,7 +38,8 @@ public class ActivatiePage {
 	
 			@Override
 			public boolean apply(WebDriver webDriver) {
-				return activatieformulier.isDisplayed();
+				JavascriptExecutor executor = (JavascriptExecutor)webDriver;
+				return "#activeer".equals(executor.executeScript("return window.location.hash;"));
 			}
 
 		});
