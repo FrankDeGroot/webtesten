@@ -59,19 +59,15 @@ public class RegistratieWebTest {
 	private void registreerHappyFlow(String naam) {
 
 		webDriver.get("http://localhost:8080");
-
-		WebElement gebruikersnaam =
-				webDriver.findElement(By.name("registratieGebruikersnaam"));
-		gebruikersnaam.sendKeys(naam);
 		
-		WebElement email = 
-				webDriver.findElement(By.name("registratieEmail"));
-		email.sendKeys(naam);
-		
-		WebElement submit =
-				webDriver.findElement(By.id("registreer"));
-		submit.submit();		
+		RegistreerPage registreerPage = new RegistreerPage(webDriver);
 
+		registreerPage.setGebruikersnaam(naam);
+
+		registreerPage.setEmail(naam);
+
+		registreerPage.submit();
+		
 		assertEquals("Activeer cursist", webDriver.getTitle());
 	}
 	
