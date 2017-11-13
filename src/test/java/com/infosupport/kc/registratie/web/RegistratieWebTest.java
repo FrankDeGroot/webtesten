@@ -43,17 +43,13 @@ public class RegistratieWebTest {
 
 		registreerHappyFlow(naam);
 		
-		WebElement activatieGebruikersnaam =
-				webDriver.findElement(By.name("activatieGebruikersnaam"));
-		activatieGebruikersnaam.sendKeys(naam);
+		ActiveerPage activeerPage = new ActiveerPage(webDriver);
 		
-		WebElement activatiecode =
-				webDriver.findElement(By.name("activatiecode"));
-		activatiecode.sendKeys("secret-" + naam);
+		activeerPage.setGebruikersnaam(naam);
 		
-		WebElement activeerSubmit =
-				webDriver.findElement(By.id("activeer"));
-		activeerSubmit.submit();
+		activeerPage.setActivatiecode("secret-" + naam);
+		
+		activeerPage.submit();
 	}
 	
 	private void registreerHappyFlow(String naam) {
@@ -75,9 +71,9 @@ public class RegistratieWebTest {
 	public void legeRegistratie() throws Exception {
 		webDriver.get("http://localhost:8080");
 
-		WebElement submit =
-				webDriver.findElement(By.id("registreer"));
-		submit.submit();
+		RegistreerPage registreerPage = new RegistreerPage(webDriver);
+		
+		registreerPage.submit();
 
 		WebElement foutlabel = webDriver.findElement(By.className("label-important"));
 
