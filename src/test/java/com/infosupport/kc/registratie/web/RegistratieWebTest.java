@@ -4,9 +4,18 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.EdgeDriverManager;
+import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -15,10 +24,21 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 public class RegistratieWebTest {
 
 	private WebDriver webDriver;
+	
+	@BeforeClass
+	public static void setupClass() {
+//		ChromeDriverManager.getInstance().setup();
+		InternetExplorerDriverManager.getInstance().setup();
+//		EdgeDriverManager.getInstance().setup();
+	}
 
 	@Before
 	public void setUp() {
-		webDriver = new HtmlUnitDriver();
+//		webDriver = new ChromeDriver();
+		DesiredCapabilities IEcaps = DesiredCapabilities.internetExplorer();
+		IEcaps .setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+		webDriver = new InternetExplorerDriver();
+//		webDriver = new EdgeDriver();
 	}
 
 	@After
