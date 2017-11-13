@@ -1,6 +1,10 @@
-package com.infosupport.kc.registratie.web;
 
+package com.infosupport.kc.registratie.web;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,6 +32,32 @@ public class RegistratieWebTest {
 	public void registreer() throws Exception {
 		String naam = Long.toString(System.currentTimeMillis());
 
+		registreerHappyFlow(naam);
+		
+		assertEquals("Activeer cursist", webDriver.getTitle());
+	}
+
+	@Test
+	public void activeer() throws Exception {
+		String naam = Long.toString(System.currentTimeMillis());
+
+		registreerHappyFlow(naam);
+		
+		WebElement activatieGebruikersnaam =
+				webDriver.findElement(By.name("activatieGebruikersnaam"));
+		activatieGebruikersnaam.sendKeys(naam);
+		
+		WebElement activatiecode =
+				webDriver.findElement(By.name("activatiecode"));
+		activatiecode.sendKeys("secret-" + naam);
+		
+		WebElement activeerSubmit =
+				webDriver.findElement(By.id("activeer"));
+		activeerSubmit.submit();
+	}
+	
+	private void registreerHappyFlow(String naam) {
+
 		webDriver.get("http://localhost:8080");
 
 		WebElement gebruikersnaam =
@@ -40,8 +70,21 @@ public class RegistratieWebTest {
 		
 		WebElement submit =
 				webDriver.findElement(By.id("registreer"));
-		submit.submit();
-		
+		submit.submit();		
+
 		assertEquals("Activeer cursist", webDriver.getTitle());
+	}
+	
+	@Test
+	public void legeRegistratie() throws Exception {
+		webDriver.get("http://localhost:8080");
+
+		WebElement submit =
+				webDriver.findElement(By.id("registreer"));
+		submit.submit();
+
+		WebElement foutlabel = webDriver.findElement(By.className("label-important"));
+
+		assertEquals("Ongeldige registratie", foutlabel.getText());
 	}
 }
