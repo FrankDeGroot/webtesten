@@ -17,6 +17,9 @@ public class RegistreerPage {
 	@FindBy(id = "registreer")
 	private WebElement submit;
 	
+	@FindBy(className = "label-important")
+	private WebElement foutlabel;
+	
 	private WebDriver webDriver;
 	
 	public RegistreerPage(WebDriver webDriver) {
@@ -36,4 +39,7 @@ public class RegistreerPage {
 		submit.submit();		
 	}
 
+	public String getFoutlabelText() {
+		return foutlabel.getText();
+	}
 }

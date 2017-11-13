@@ -77,8 +77,6 @@ public class RegistratieWebTest {
 		
 		registreerPage.submit();
 
-		WebElement foutlabel = webDriver.findElement(By.className("label-important"));
-
-		assertEquals("Ongeldige registratie", foutlabel.getText());
+		assertEquals("Ongeldige registratie", registreerPage.getFoutlabelText());
 	}
 }

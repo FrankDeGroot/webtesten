@@ -16,6 +16,9 @@ public class ActiveerPage {
 	@FindBy(id = "activeer")
 	private WebElement submit;
 	
+	@FindBy(className = "label-important")
+	private WebElement foutlabel;
+	
 	private WebDriver webDriver;
 	
 	public ActiveerPage(WebDriver webDriver) {
@@ -33,6 +36,10 @@ public class ActiveerPage {
 	
 	public void submit() {
 		submit.submit();		
+	}
+
+	public String getFoutlabelText() {
+		return foutlabel.getText();
 	}
 
 }
