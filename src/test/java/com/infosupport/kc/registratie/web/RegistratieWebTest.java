@@ -50,6 +50,8 @@ public class RegistratieWebTest {
 		activeerPage.setActivatiecode("secret-" + naam);
 		
 		activeerPage.submit();
+		
+		assertEquals("Account page", webDriver.getTitle());
 	}
 	
 	private void registreerHappyFlow(String naam) {
