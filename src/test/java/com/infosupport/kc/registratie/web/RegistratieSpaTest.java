@@ -4,10 +4,13 @@ package com.infosupport.kc.registratie.web;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.common.base.Predicate;
 
 public class RegistratieSpaTest {
 
@@ -65,7 +68,19 @@ public class RegistratieSpaTest {
 
 		registreerPage.submit();
 
-		waiter.until(ExpectedConditions.titleIs("Activeer cursist"));
+//		waiter.until(ExpectedConditions.titleIs("Activeer cursist"));
+		
+		waiter.until(new ActiveerPageHashTester());
+	}
+
+	class ActiveerPageHashTester implements Predicate<WebDriver> {
+
+		@Override
+		public boolean apply(WebDriver webDriver) {
+			JavascriptExecutor executor = (JavascriptExecutor) webDriver;
+			return "#activeer".equals(executor.executeScript("return window.location.hash;"));
+		}
+
 	}
 
 	@Test
