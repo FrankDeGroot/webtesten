@@ -7,10 +7,7 @@ import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.google.common.base.Predicate;
 
 public class RegistratieSpaTest {
 
@@ -51,7 +48,7 @@ public class RegistratieSpaTest {
 
 		activeerPage.submit();
 
-		waiter.until(ExpectedConditions.titleIs("Account page"));
+		waiter.until(webDriver -> "Account page".equals(webDriver.getTitle()));
 
 		// assertEquals("Account page", webDriver.getTitle());
 	}
@@ -70,17 +67,10 @@ public class RegistratieSpaTest {
 
 //		waiter.until(ExpectedConditions.titleIs("Activeer cursist"));
 		
-		waiter.until(new ActiveerPageHashTester());
-	}
-
-	class ActiveerPageHashTester implements Predicate<WebDriver> {
-
-		@Override
-		public boolean apply(WebDriver webDriver) {
+		waiter.until(webDriver -> {
 			JavascriptExecutor executor = (JavascriptExecutor) webDriver;
 			return "#activeer".equals(executor.executeScript("return window.location.hash;"));
-		}
-
+		});
 	}
 
 	@Test
@@ -91,7 +81,7 @@ public class RegistratieSpaTest {
 
 		registreerPage.submit();
 
-		waiter.until(registreerPage.isFoutlabelText("Ongeldige registratie"));
+		waiter.until(webDriver -> "Ongeldige registratie".equals(registreerPage.getFoutlabelText()));
 
 		// assertEquals("Ongeldige registratie", registreerPage.getFoutlabelText());
 	}
