@@ -25,7 +25,7 @@ public class RegistratieSpaTest {
 
 	@After
 	public void after() {
-		webDriver.close();
+		webDriver.quit();
 	}
 
 	@Test

@@ -20,7 +20,7 @@ public class RegistratieWebTest {
 
 	@After
 	public void after() {
-		webDriver.close();
+		webDriver.quit();
 	}
 
 	@Test
