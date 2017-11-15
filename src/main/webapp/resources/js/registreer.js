@@ -2,6 +2,7 @@ var h1 = document.querySelector('h1');
 var errorLabel = document.querySelector('.label-important');
 var activatieformulier = document.getElementById('activatieformulier');
 var registratieformulier = document.getElementById('registratieformulier');
+var currentPage = 'registreer';
 
 function hide(element) {
 	element.style.display = 'none';
@@ -85,7 +86,7 @@ onSubmit(registratieformulier, function(form) {
 			+ encodeURIComponent(registratieGebruikersnaam) + '&'
 			+ "registratieEmail=" + encodeURIComponent(registratieEmail);
 	post('/registreer', body, function(responseHtml) {
-		window.location.hash = 'activeer';
+		currentPage = window.location.hash = 'activeer';
 	});
 });
 
@@ -97,7 +98,7 @@ onSubmit(activatieformulier, function(form) {
 			+ encodeURIComponent(activatieGebruikersnaam) + '&'
 			+ "activatiecode=" + encodeURIComponent(activatiecode);
 	post('/activeer', body, function(responseHtml) {
-		window.location.hash = 'account';
+		currentPage = window.location.hash = 'account';
 		h1.textContent = responseHtml.querySelector('h1').textContent;
 	});
 });
