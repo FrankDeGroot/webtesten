@@ -1,21 +1,23 @@
 
 package com.infosupport.kc.registratie.web;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class RegistratieWebTest {
+public class RegistratieSpaTest {
 
 	private WebDriver webDriver;
+	private WebDriverWait waiter;
 
 	@Before
 	public void before() {
-		webDriver = new HtmlUnitDriver();
+		webDriver = new HtmlUnitDriver(true);
+		waiter = new WebDriverWait(webDriver, 5, 100);
 	}
 
 	@After
@@ -29,7 +31,7 @@ public class RegistratieWebTest {
 
 		registreerHappyFlow(naam);
 
-		assertEquals("Activeer cursist", webDriver.getTitle());
+		// assertEquals("Activeer cursist", webDriver.getTitle());
 	}
 
 	@Test
@@ -46,12 +48,14 @@ public class RegistratieWebTest {
 
 		activeerPage.submit();
 
-		assertEquals("Account page", webDriver.getTitle());
+		waiter.until(ExpectedConditions.titleIs("Account page"));
+
+		// assertEquals("Account page", webDriver.getTitle());
 	}
 
 	private void registreerHappyFlow(String naam) {
 
-		webDriver.get("http://localhost:8080");
+		webDriver.get("http://localhost:8080/registreer.html");
 
 		RegistreerPage registreerPage = new RegistreerPage(webDriver);
 
@@ -61,17 +65,19 @@ public class RegistratieWebTest {
 
 		registreerPage.submit();
 
-		assertEquals("Activeer cursist", webDriver.getTitle());
+		waiter.until(ExpectedConditions.titleIs("Activeer cursist"));
 	}
 
 	@Test
 	public void legeRegistratie() throws Exception {
-		webDriver.get("http://localhost:8080");
+		webDriver.get("http://localhost:8080/registreer.html");
 
 		RegistreerPage registreerPage = new RegistreerPage(webDriver);
 
 		registreerPage.submit();
 
-		assertEquals("Ongeldige registratie", registreerPage.getFoutlabelText());
+		waiter.until(registreerPage.isFoutlabelText("Ongeldige registratie"));
+
+		// assertEquals("Ongeldige registratie", registreerPage.getFoutlabelText());
 	}
 }
