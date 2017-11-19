@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Account page</title>
-<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<!-- <link href="bootstrap/css/bootstrap.css" rel="stylesheet"> -->
 </head>
 <body>
 	<div class="hero-unit">

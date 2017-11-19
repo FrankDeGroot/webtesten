@@ -39,4 +39,10 @@ public class CursistDao {
 		}
 		return resultList.get(0);
 	}
+	
+	public void deleteCursisten() {
+		em.getTransaction().begin();
+		em.createQuery("delete from Cursist").executeUpdate();
+		em.getTransaction().commit();
+	}
 }

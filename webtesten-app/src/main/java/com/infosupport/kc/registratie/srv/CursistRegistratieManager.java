@@ -71,5 +71,10 @@ public class CursistRegistratieManager {
 		this.activaties.remove(activatiecode);
 		return cursist;
 	}
+	
+	public void delete() {
+		this.activaties.clear();
+		dao.deleteCursisten();
+	}
 
 }

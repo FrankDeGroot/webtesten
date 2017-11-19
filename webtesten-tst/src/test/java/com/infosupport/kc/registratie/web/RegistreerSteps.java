@@ -7,19 +7,21 @@ import static org.junit.Assert.assertThat;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import cucumber.annotation.After;
 import cucumber.annotation.en.And;
 import cucumber.annotation.en.Given;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 
-public class RegistratieFeature {
+public class RegistreerSteps {
 
 	public WebDriver webDriver;
 	public RegistreerPage registreerPage;
 
-	@Given("I have a browser open")
+	@Given("^I have a browser open$")
 	public void iHaveABrowserOpen() {
 		webDriver = new HtmlUnitDriver();
+		webDriver.get("http://localhost:8080/delete");
 	}
 
 	@When("I navigate to the home page")
@@ -46,6 +48,10 @@ public class RegistratieFeature {
 	@Then("I should arrive at the activation page")
 	public void iShouldArriveAtTheActivationPage() {
 		assertThat(webDriver.getTitle(), is(equalTo("Activeer cursist")));
+	}
+	
+	@After
+	public void after() {
 		webDriver.quit();
 	}
 }
