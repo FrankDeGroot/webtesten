@@ -1,5 +1,5 @@
 Feature: Registreren
-  I want to use this template for my feature file
+  Registreren van nieuwe cursisten.
 
   Scenario: Succesvolle registratie
     Given I have a browser open

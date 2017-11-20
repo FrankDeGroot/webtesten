@@ -2,10 +2,11 @@ package com.infosupport.kc.registratie.web;
 
 import org.junit.runner.RunWith;
 
-import cucumber.junit.Cucumber;
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@Cucumber.Options(format = { "pretty", "html:target/cucumber" })
+@CucumberOptions(plugin = { "pretty", "html:target/cucumber" })
 public class RegistratieFeatureTest {
 
 }
