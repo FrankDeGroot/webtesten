@@ -7,4 +7,4 @@ Feature: Registreren
     And I enter the user name Test
     And I enter the email test@test.test
     And I submit the registration
-    Then I should arrive at the activation page
+    Then I should arrive at the page titled Activeer cursist

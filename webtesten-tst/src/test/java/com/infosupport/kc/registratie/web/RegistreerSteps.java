@@ -44,9 +44,9 @@ public class RegistreerSteps {
 		registreerPage.submit();
 	}
 
-	@Then("^I should arrive at the activation page$")
-	public void iShouldArriveAtTheActivationPage() {
-		assertThat(webDriver.getTitle(), is(equalTo("Activeer cursist")));
+	@Then("^I should arrive at the page titled (.*)$")
+	public void iShouldArriveAtTheActivationPage(String pageTitle) {
+		assertThat(webDriver.getTitle(), is(equalTo(pageTitle)));
 	}
 	
 	@After
