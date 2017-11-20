@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.After;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -20,7 +19,7 @@ public class RegistreerSteps {
 
 	@Given("^I have a browser open$")
 	public void iHaveABrowserOpen() {
-		webDriver = new HtmlUnitDriver();
+		webDriver = WebDriverFactory.create();
 		webDriver.get("http://localhost:8080/delete");
 	}
 

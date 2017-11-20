@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,7 +18,7 @@ public class RegistratieSpaTest {
 
 	@Before
 	public void before() {
-		webDriver = new HtmlUnitDriver(true);
+		webDriver = WebDriverFactory.create();
 		waiter = new WebDriverWait(webDriver, 5, 100);
 	}
 
