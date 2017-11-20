@@ -2,24 +2,32 @@ package com.infosupport.kc.registratie.web;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import org.junit.After;
-import org.openqa.selenium.WebDriver;
 
-import cucumber.api.java.en.And;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class RegistreerSteps {
+public class RegistreerSteps extends StepsBase {
 
-	public WebDriver webDriver;
 	public RegistreerPage registreerPage;
 
-	@Given("^I have a browser open$")
-	public void iHaveABrowserOpen() {
+	@Before
+	public void before() {
 		webDriver = WebDriverFactory.create();
+	}
+
+	@After
+	public void after() {
+		webDriver.quit();
+	}
+
+	@Given("^There are no registered users$")
+	public void thereAreNoRegisteredUsers() {
 		webDriver.get("http://localhost:8080/delete");
 	}
 
@@ -29,17 +37,17 @@ public class RegistreerSteps {
 		registreerPage = new RegistreerPage(webDriver);
 	}
 
-	@And("^I enter the user name (.*)$")
-	public void iEnterAUsername(String username) {
+	@Then("^I enter the registration user name (.*)$")
+	public void iEnterTheRegistrationUsername(String username) {
 		registreerPage.setGebruikersnaam(username);
 	}
 
-	@And("^I enter the email (.*)$")
-	public void iEnterTheEmai(String email) {
+	@Then("^I enter the email (.*)$")
+	public void iEnterTheEmail(String email) {
 		registreerPage.setEmail(email);
 	}
 
-	@And("^I submit the registration$")
+	@Then("^I submit the registration$")
 	public void iSubmitTheRegistration() {
 		registreerPage.submit();
 	}
@@ -48,9 +56,17 @@ public class RegistreerSteps {
 	public void iShouldArriveAtTheActivationPage(String pageTitle) {
 		assertThat(webDriver.getTitle(), is(equalTo(pageTitle)));
 	}
-	
-	@After
-	public void after() {
-		webDriver.quit();
+
+	@Then("^I should see the error (.*)$")
+	public void iShouldSeeTheError(String errorMessage) {
+		assertEquals(errorMessage, registreerPage.getFoutlabelText());
+	}
+
+	@Given("^A registered user (.*)$")
+	public void aRegisteredUser(String username) {
+		iNavigateToTheHomePage();
+		iEnterTheRegistrationUsername(username);
+		iEnterTheEmail(username);
+		iSubmitTheRegistration();
 	}
 }
