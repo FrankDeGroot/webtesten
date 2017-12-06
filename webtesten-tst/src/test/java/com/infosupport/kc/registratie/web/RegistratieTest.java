@@ -51,15 +51,15 @@ public class RegistratieTest {
 
         assertThat(webDriver.getTitle(), equalTo("Activeer cursist"));
 
-        ActiveerPage activeerPage = new ActiveerPage(webDriver);
+        ActivatiePage activatiePage = new ActivatiePage(webDriver);
 
-        activeerPage.navigateTo();
+        activatiePage.navigateTo();
 
-        activeerPage.setGebruikersnaam(naam);
+        activatiePage.setGebruikersnaam(naam);
 
-        activeerPage.setActivatiecode("secret-" + naam);
+        activatiePage.setActivatiecode("secret-" + naam);
 
-        activeerPage.submit();
+        activatiePage.submit();
 
 //        webDriverWait.until(ExpectedConditions.titleIs("Account page"));
 

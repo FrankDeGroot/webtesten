@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class ActiveerPage {
+public class ActivatiePage {
     private WebDriver webDriver;
 
     @FindBy(name = "activatieGebruikersnaam")
@@ -17,7 +17,7 @@ public class ActiveerPage {
     @FindBy(id = "activeer")
     private WebElement submit;
 
-    public ActiveerPage(WebDriver webDriver) {
+    public ActivatiePage(WebDriver webDriver) {
         this.webDriver = webDriver;
         PageFactory.initElements(webDriver, this);
     }
