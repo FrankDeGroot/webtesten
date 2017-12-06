@@ -17,6 +17,9 @@ public class RegistratiePage {
     @FindBy(id = "registreer")
     private WebElement submit;
 
+    @FindBy(className = "label-important")
+    private WebElement errorLabel;
+
     public RegistratiePage(WebDriver webDriver) {
         this.webDriver = webDriver;
         PageFactory.initElements(webDriver, this);
@@ -36,5 +39,9 @@ public class RegistratiePage {
 
     public void submit() {
         submit.click();
+    }
+
+    public String getError() {
+        return errorLabel.getText();
     }
 }

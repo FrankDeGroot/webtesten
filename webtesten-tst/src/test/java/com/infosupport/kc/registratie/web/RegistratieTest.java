@@ -1,5 +1,6 @@
 package com.infosupport.kc.registratie.web;
 
+import com.google.common.base.Predicate;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -9,6 +10,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -16,6 +21,7 @@ import static org.junit.Assert.assertThat;
 public class RegistratieTest {
 
     private WebDriver webDriver;
+    private WebDriverWait webDriverWait;
 
     @BeforeClass
     public static void beforeClass() {
@@ -26,6 +32,7 @@ public class RegistratieTest {
     public void before() {
 //        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Me\\Downloads\\chromedriver.exe");
         webDriver = new ChromeDriver();
+        webDriverWait = new WebDriverWait(webDriver, 5);
         webDriver.get("http://localhost:8080/delete");
     }
 
@@ -48,31 +55,34 @@ public class RegistratieTest {
 
         registratiePage.submit();
 
+//        webDriverWait.until(ExpectedConditions.titleIs("Activeer cursist"));
+
         assertThat(webDriver.getTitle(), equalTo("Activeer cursist"));
 
-        webDriver.get("http://localhost:8080/activeer");
+        ActiveerPage activeerPage = new ActiveerPage(webDriver);
 
-        WebElement activatieGebruikersnaam = webDriver.findElement(By.name("activatieGebruikersnaam"));
-        activatieGebruikersnaam.sendKeys(naam);
+        activeerPage.navigateTo();
 
-        WebElement activatiecode = webDriver.findElement(By.name("activatiecode"));
-        activatiecode.sendKeys("secret-" + naam);
+        activeerPage.setGebruikersnaam(naam);
 
-        WebElement activeerSubmit = webDriver.findElement(By.id("activeer"));
-        activeerSubmit.click();
+        activeerPage.setActivatiecode("secret-" + naam);
+
+        activeerPage.submit();
+
+//        webDriverWait.until(ExpectedConditions.titleIs("Account page"));
 
         assertThat(webDriver.getTitle(), equalTo("Account page"));
     }
 
     @Test
     public void emptyRegistrationShouldFail() throws Exception {
-        webDriver.get("http://localhost:8080/");
+        RegistratiePage registratiePage = new RegistratiePage(webDriver);
 
-        WebElement registreerSubmit = webDriver.findElement(By.id("registreer"));
-        registreerSubmit.click();
+        registratiePage.navigateTo();
 
-        WebElement errorLabel = webDriver.findElement(By.className("label-important"));
-        assertThat(errorLabel.getText(), equalTo("Ongeldige registratie"));
+        registratiePage.submit();
+
+        assertThat(registratiePage.getError(), equalTo("Ongeldige registratie"));
     }
 
 }
