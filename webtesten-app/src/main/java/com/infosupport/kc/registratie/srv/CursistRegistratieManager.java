@@ -72,4 +72,8 @@ public class CursistRegistratieManager {
 		return cursist;
 	}
 
+	public void delete() {
+		this.activaties.clear();
+		dao.deleteCursisten();
+	}
 }
